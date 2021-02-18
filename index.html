@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html>
+<head>
+  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font: 20px Arial;  
+}
+
+/*the container must be positioned relative:*/
+.autocomplete {
+  position: relative;
+  display: inline-block;
+}
+
+input {
+  border: 4px solid transparent;
+  background-color: #f1f1f1;
+  padding: 10px;
+  font-size: 20px;
+}
+
+input[type=text] {
+  background-color: #f1f1f1;
+  width: 160%;
+}
+
+input[type=submit] {
+  background-color: DodgerBlue;
+  color: #fff;
+  cursor: pointer;
+  width: 50%;
+}
+
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff; 
+  border-bottom: 1px solid #d4d4d4; 
+}
+
+/*when hovering an item:*/
+.autocomplete-items div:hover {
+  background-color: #e9e9e9; 
+}
+
+/*when navigating through the items using the arrow keys:*/
+.autocomplete-active {
+  background-color: DodgerBlue !important; 
+  color: #ffffff; 
+}
+</style>
+<style>
+    body {font-family: Arial, Helvetica, sans-serif;}
+    
+    .navbar {
+      width: 100%;
+      background-color: #555;
+      overflow: auto;
+    }
+    
+    .navbar a {
+      float: left;
+      padding: 12px;
+      color: white;
+      text-decoration: none;
+      font-size: 17px;
+    }
+    
+    .navbar a:hover {
+      background-color: #000;
+    }
+    
+    .active {
+      background-color: #4CAF50;
+    }
+    
+    @media screen and (max-width: 500px) {
+      .navbar a {
+        float: none;
+        display: block;
+      }
+    }
+    </style>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      
+      #myInput {
+        background-image: url('/css/searchicon.png');
+        background-position: 10px 10px;
+        background-repeat: no-repeat;
+        width: 100%;
+        font-size: 16px;
+        padding: 12px 20px 12px 40px;
+        border: 1px solid #ddd;
+        margin-bottom: 12px;
+      }
+      
+      #myTable {
+        border-collapse: collapse;
+        width: 100%;
+        border: 1px solid #ddd;
+        font-size: 18px;
+      }
+      
+      #myTable th, #myTable td {
+        text-align: left;
+        padding: 12px;
+      }
+      
+      #myTable tr {
+        border-bottom: 1px solid #ddd;
+      }
+      
+      #myTable tr.header, #myTable tr:hover {
+        background-color: #f1f1f1;
+      }
+      </style>
+      
+</head>     
+<body>
+    <div class="navbar">
+        <a class="active" href="#"><i class="fa fa-fw fa-home"></i> Home</a> 
+        <a href="#"><i class="fa fa-fw fa-envelope"></i> Contact</a> 
+        <a href="#"><i class="fa fa-fw fa-user"></i> Login</a>
+      </div>
+<!--Make sure the form has the autocomplete function switched off:-->
+<form autocomplete="off" action="/action_page.php">
+  <div class="autocomplete" style="width:300px;">
+    <input id="myInput" type="text" name="schools" placeholder="Schools">
+  </div>
+  <input type="submit">
+</form>
+
+<table id="myTable">
+  <tr class="header">
+    <th style="width:50%;">City</th>
+    <th style="width:50%;">Area</th>
+     <th style="width:40%;">School Board(ICSE/CBSE)
+</th>
+     
+  </tr>
+  <tr>
+    <td>Hyderabad</td>
+    <td>V.V.Nagar, Dilsukhnagar, Hyderabad</td>
+    <td>Panineeya Mahavidyalaya Public School(CBSE Board)</td>
+  </tr>
+  <tr>
+    <td>Chennai</td>
+    <td>28, Dr. Guruswamy Road,Chetpet</td>
+      <td>Maharishi Vidya Mandir(CBSE Board)</td>
+  </tr>
+  <tr>
+    <td>Bengaluru</td>
+    <td>#13, Survey no. 19, Ambalipura,Varthur Hobli,Sarjapur Road,</td>
+      <td>Orchids The International School (CBSE Board)</td>
+  </tr>
+  <tr>
+    <td>Pune</td>
+    <td> Tiwai Hill, Rajgurunagar</td>
+      <td>Sahyadri School(ICSEBoard)</td>
+  </tr>
+  <tr>
+    <td>Pune</td>
+    <td>Aundh Chest Hospital Road, Near Kalewadi Chowk, Wakad</td>
+      <td>WISDOM WORLD SCHOOL(ICSE Board)</td>
+  </tr>
+  <tr>
+    <td>Hyderabad</td>
+    <td>Arul colony ecil post, A S Rao Nagar,Arul Colony, Hyderabad</td>
+      <td>St.Theresa High School(ICSE Board)</td>
+  </tr>
+</table>
+
+  <select id="trollSelect">
+      <option value="PL">Sort by Option</option>
+      <option value="EN">Relevance</option>
+      <option value="EN">Rating</option>
+      <option value="EN">Fees</option>
+   
+      [...] //more options created dynamically
+ </select>
+<main>
+ <section class="py-5 text-center container">
+  <div class="row py-lg-5">
+    <div class="col-lg-6 col-md-8 mx-auto">
+    </div>
+  </div>
+</section>
+
+<div class="album py-5 bg-light">
+  <div class="container">
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+      <div class="col">
+        <div class="card shadow-sm">
+          <img src=".1.png">
+          <h3>Sri Chaitanya School,Hyderabad</h3>
+          <div class="card-body">
+            <p class="card-text">"Parents are the first teacher, teachers are the next parents. Home is the first school and school is the next home. Encyclopedia Britannica defines discipline as sacrificing some of the pleasures in order to achieve higher quality of life. Discipline cannot be imposed; it must be inculcated by both parents and teachers. Same is the case with the cultural and moral rules.</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+              </div>
+              <small class="text-muted">9 mins</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card shadow-sm">
+         <img src=".3.jpg">
+         <h3>Candor Shrine I School,Hyderabad</h3>
+          <div class="card-body">
+            <p class="card-text">World Class Cbse School</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+              </div>
+              <small class="text-muted">9 mins</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card shadow-sm">
+         <img src=".22.jpg">
+         <h3>  Vikas The Concept School,Hyderabad</h3>
+          <div class="card-body">
+            <p class="card-text">"Vikas - The Concept School is a center of excellence focusing on shaping children into leaders of tomorrow. We offer concept and comprehensive-centered education through a developmental approach. </p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+              </div>
+              <small class="text-muted">9 mins</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card shadow-sm">
+        <img src=".4.jpg">
+        <h3>Sri Vidhya Academy International Residential School,Chennai</h3>    
+          <div class="card-body">
+            <p class="card-text">
+              Sri Vidhya Academy has a vision to provide a caring environment for children to Aspire and guide them to Acquire the necessary knowledge to Achieve happiness and success. The best of opportunities to learn under the tutelage ofer.</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+              </div>
+              <small class="text-muted">9 mins</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card shadow-sm">
+        <img src=".5.jpg">
+        <h3>St.Johns International Residential School,Chennai</h3>
+          <div class="card-body">
+            <p class="card-text">SJIRS started its journey in 1993 as a fully Residential School for Boys only. After the completion of 10 years in 2003-2004, it was converted into a co-educational school. After completion of 20 years in order to give an opportunity</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+              </div>
+              <small class="text-muted">9 mins</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card shadow-sm">
+         <img src=".6.jpg">
+         <h3>Billabong High International School - Kelambakkam,Chennai</h3>
+          <div class="card-body">
+            <p class="card-text">
+              To ignite human greatness in growing children and pre-adults- by fostering a love of learning, a talent for thinking and respect for hard work. BHIS nurtures to unlock the inner genius so that each child brings his/her mission and talent to the world and lives the true power and potential.</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+              </div>
+              <small class="text-muted">9 mins</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card shadow-sm">
+          <img src=".7.jpg">
+          <h3>TRIO WORLD ACADEMY,Bangalore</h3>
+          <div class="card-body">
+            <p class="card-text">Welcome to Trio World Academy. This is the first step towards gifting your child a truly international educational experience. Trio believes in providing a solid platform to engineer the best future for students and the society at large.</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+              </div>
+              <small class="text-muted">9 mins</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card shadow-sm">
+         <img src=".8.jpg">
+         <h3>Baldwin Girls High School,Bangalore</h3>
+          <div class="card-body">
+            <p class="card-text">Baldwin Girls High School, a member of the prestigious Baldwin group of Institutions, is run by the Methodist Church in India under the Chairmanship of the Bishop of the South India Regional Conference of the Methodist Church in India. </p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+              </div>
+              <small class="text-muted">9 mins</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card shadow-sm">
+        <img src=".9.jpg">
+        <h3>NITTE International School</h3>
+          <div class="card-body">
+            <p class="card-text">NIS is a co-educational day and residential school that offers modern facilities of the highest order. It is presently affiliated with CBSE New Delhi, and will soon have IGCSE course too. Located in North Bangalore,</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+              </div>
+              <small class="text-muted">9 mins</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</main>
+
+
+      
+     
+        <script src="js/bootstrap.bundle.min.js"></script>
+<script>
+function autocomplete(inp, arr) {
+  /*the autocomplete function takes two arguments,
+  the text field element and an array of possible autocompleted values:*/
+  var currentFocus;
+  /*execute a function when someone writes in the text field:*/
+  inp.addEventListener("input", function(e) {
+      var a, b, i, val = this.value;
+      /*close any already open lists of autocompleted values*/
+      closeAllLists();
+      if (!val) { return false;}
+      currentFocus = -1;
+      /*create a DIV element that will contain the items (values):*/
+      a = document.createElement("DIV");
+      a.setAttribute("id", this.id + "autocomplete-list");
+      a.setAttribute("class", "autocomplete-items");
+      /*append the DIV element as a child of the autocomplete container:*/
+      this.parentNode.appendChild(a);
+      /*for each item in the array...*/
+      for (i = 0; i < arr.length; i++) {
+        /*check if the item starts with the same letters as the text field value:*/
+        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+          /*create a DIV element for each matching element:*/
+          b = document.createElement("DIV");
+          /*make the matching letters bold:*/
+          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+          b.innerHTML += arr[i].substr(val.length);
+          /*insert a input field that will hold the current array item's value:*/
+          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+          /*execute a function when someone clicks on the item value (DIV element):*/
+          b.addEventListener("click", function(e) {
+              /*insert the value for the autocomplete text field:*/
+              inp.value = this.getElementsByTagName("input")[0].value;
+              /*close the list of autocompleted values,
+              (or any other open lists of autocompleted values:*/
+              closeAllLists();
+          });
+          a.appendChild(b);
+        }
+      }
+  });
+  /*execute a function presses a key on the keyboard:*/
+  inp.addEventListener("keydown", function(e) {
+      var x = document.getElementById(this.id + "autocomplete-list");
+      if (x) x = x.getElementsByTagName("div");
+      if (e.keyCode == 40) {
+        /*If the arrow DOWN key is pressed,
+        increase the currentFocus variable:*/
+        currentFocus++;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 38) { //up
+        /*If the arrow UP key is pressed,
+        decrease the currentFocus variable:*/
+        currentFocus--;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 13) {
+        /*If the ENTER key is pressed, prevent the form from being submitted,*/
+        e.preventDefault();
+        if (currentFocus > -1) {
+          /*and simulate a click on the "active" item:*/
+          if (x) x[currentFocus].click();
+        }
+      }
+  });
+  function addActive(x) {
+    /*a function to classify an item as "active":*/
+    if (!x) return false;
+    /*start by removing the "active" class on all items:*/
+    removeActive(x);
+    if (currentFocus >= x.length) currentFocus = 0;
+    if (currentFocus < 0) currentFocus = (x.length - 1);
+    /*add class "autocomplete-active":*/
+    x[currentFocus].classList.add("autocomplete-active");
+  }
+  function removeActive(x) {
+    /*a function to remove the "active" class from all autocomplete items:*/
+    for (var i = 0; i < x.length; i++) {
+      x[i].classList.remove("autocomplete-active");
+    }
+  }
+  function closeAllLists(elmnt) {
+    /*close all autocomplete lists in the document,
+    except the one passed as an argument:*/
+    var x = document.getElementsByClassName("autocomplete-items");
+    for (var i = 0; i < x.length; i++) {
+      if (elmnt != x[i] && elmnt != inp) {
+        x[i].parentNode.removeChild(x[i]);
+      }
+    }
+  }
+  /*execute a function when someone clicks in the document:*/
+  document.addEventListener("click", function (e) {
+      closeAllLists(e.target);
+  });
+}
+
+/*An array containing all the country names in the world:*/
+var schools = ["BALDWIN GIRLS HIGH SCHOOl","TRIO WORLD ACADEMY","CANADIAN INTERNATIONAL SCHOOL","BISHOP COTTON GIRLS SCHOOL","CATHEDRAL HIGH SCHOOL","BALDWIN GIRLS HIGH SCHOOL","BALDWIN INTERNATIONAL SCHOOL","NITTE INTERNATIONAL SCHOOL","BETHANY HIGH school","JANASEVA VIDYAKENDRA BOYS RESIDENTIAL SCHOOL","ARUNODAYA RESIDENTIAL SCHOOL","EMERALD INTERNATIONAL SCHOOL","BASAVA RESIDENTIAL GIRLS SCHOOL","CANDOR INTERNATIONAL SCHOOL","AL-AMEEN RESIDENTIAL SCHOOLS","GLENTREE RESIDENTIAL SCHOOL","GR INTERNATIONAL SCHOOL","ap modal school","AP SCHOOLS","AP GRAM SCHOOLS","SMEC SCHOOLS","ADITYA SCHOOLS","NARAYANA SCHOOLS",];
+
+/*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
+autocomplete(document.getElementById("myInput"), schools);
+</script>
+
+<script>
+  function myFunction() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[0];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }       
+    }
+  }
+  </script>
+  <footer class="text-muted py-5">
+    <div class="container">
+      <p class="float-end mb-1">
+        <a href="#">Back to top</a>
+      </p>
+      <p class="mb-1">THANKS FOR GIVING THIS ASSIGNMENT SIR, THANKY YOU SIR</p>
+      <p class="mb-0">GARAGA NAGARAJU <a href="/">Visit the homepage</p>
+    </div>
+  </footer>
+</body>
+</html>
